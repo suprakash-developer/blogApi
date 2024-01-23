@@ -1,0 +1,63 @@
+<html>
+<head>
+<title>SOAP</title>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+</head>
+<body>
+<div ng-app="myapp" ng-controller="studentcontroller">
+<form>
+Enter Sno:    <input type="text" ng-model="sno"/><br/>
+Enter Name:   <input type="text" ng-model="name"/><br/>
+Enter Course: <input type="text" ng-model="course"/><br/>
+<input type="submit" name="btnInsert" value="Add" ng-click="insertdata()"/>
+<input type="submit" name="btnUpdate" value="Update" ng-click="updatedata()"/>
+<input type="submit" name="btnDelete" value="Delete" ng-click="deletedata()"/>
+</form>
+</div>
+<script>
+var app = angular.module("myapp",[]);
+app.controller("studentcontroller",function($scope,$http){
+	$scope.insertdata = function() {
+		$http.post("insert.php",{'sno':$scope.sno,'name':$scope.name,'course':$scope.course})
+		.success(function(data,status,headers,config){
+			console.log("Inserted Successfully!");
+
+			
+		});
+		
+
+		
+	}
+	
+	//update data 
+	$scope.updatedata = function() {
+		$http.post("update.php",{'sno':$scope.sno,'name':$scope.name,'course':$scope.course})
+		.success(function(data,status,headers,config){
+			console.log("updated Successfully!");
+
+			
+		});
+		
+
+		
+	}
+	
+	//delete data 
+	$scope.deletedata = function() {
+		$http.post("delete.php",{'sno':$scope.sno})
+		.success(function(data,status,headers,config){
+			console.log("deleted Successfully!");
+
+			
+		});
+		
+
+		
+	}
+	
+	
+});
+
+</script>
+</body>
+</html>
