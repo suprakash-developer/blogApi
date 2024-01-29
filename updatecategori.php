@@ -13,6 +13,7 @@ $data = json_decode(file_get_contents("php://input"));
 $cat_name = $_POST['catName'];
 $cat_desc = $_POST['catDesc'];
 $catID = $_POST['catID'];
+$catImg = $_POST['catImg'];
 
 include('db_connect.php');
 
@@ -24,7 +25,7 @@ $target_file = $target_dir . basename($_FILES["catImg"]["name"]);
 if($fileName!=null){
 $catImgPath = "http://localhost/blog-react/" . $target_file;
 } else {
-	$catImgPath="";
+	$catImgPath=$catImg;
 }
 $cat_Img = basename($_FILES["catImg"]["name"]);
 

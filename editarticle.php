@@ -15,11 +15,14 @@ $outp = "";
 while($rs = mysqli_fetch_array($result)) {
 
     if ($outp != "") {$outp .= ",";}
-    $outp .= '{"Categori_Name":"'  . $rs["CategoriName"] . '",';
-        $outp .= '"Article_Title":"'   .$rs["ArticleTitle"] . '",';
-        $outp .= '"Article_Desc":"'   .$rs["ArticleDesc"] . '",';
-        $outp .= '"Article_ID":"'   .$rs["ArticleID"] . '",';
-        $outp .= '"ImgPath":"'   .$rs["ImgPath"] . '"}';
+        $outp .= '{"ArticleID":"'   .$rs["ArticleID"] . '",';
+        $outp .= '"postTitle":"'   .$rs["postTitle"] . '",';
+        $outp .= '"postDesc":"'   .$rs["postDesc"] . '",';
+        $outp .='"postcatName":"'  . $rs["postcatName"] . '",';
+        $outp .='"postCategori":"'  . $rs["postCategori"] . '",';
+        $outp .='"postauthName":"'  . $rs["postauthName"] . '",';
+        $outp .='"postAuthor":"'  . $rs["postAuthor"] . '",';
+        $outp .= '"postImage":"'   .$rs["postImage"] . '"}';
 }
 
 echo $outp;

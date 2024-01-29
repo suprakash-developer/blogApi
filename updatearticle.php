@@ -10,16 +10,49 @@ include('db_connect.php');
 $data = json_decode(file_get_contents("php://input"));
 //print_r($data);
 //die();
-$CategoriName = $data->Categori_Name;
-$ArticleTitle = $data->Article_Title;
-$ArticleID = $data->Article_ID;
-$ArticleDesc = $data->Article_Desc;
-$ImgPath = $data->ImgPath;
+$ArticleID = $_POST['ArticleID'];
+$ArticleTitle = $_POST['postTitle'];
+$ArticleDesc = htmlentities($_POST['postDesc']);
+$CategoriName = $_POST['postcatName'];
+$CategoriId = $_POST['postCategori'];
+$AuthName = $_POST['postauthName'];
+$AuthID = $_POST['postAuthor'];
+$ImgPath = $_POST['postImage'];
 
+
+
+// $ArticleID = $data->ArticleID;
+// $ArticleTitle = $data->postTitle;
+// $ArticleDesc = $data->postDesc;
+// $CategoriName = $data->postcatName;
+// $CategoriId = $data->postCategori;
+// $AuthName = $data->postauthName;
+// $AuthID = $data->postAuthor;
+// $ImgPath = $data->postImage;
+$target_dir = "images/";
+$fileName = basename($_FILES["postImage"]["name"]);
+$target_file = $target_dir . basename($_FILES["postImage"]["name"]);
+if($fileName!=null){
+$postImagePath = "http://localhost/blog-react/" . $target_file;
+} else {
+	$postImagePath=$ImgPath;
+}
+$cat_Img = basename($_FILES["postImage"]["name"]);
+
+
+if(move_uploaded_file($_FILES["postImage"]["tmp_name"], $target_file)){
+
+}
 
 
 $sql = "update article set 
-CategoriName='$CategoriName',ArticleTitle='$ArticleTitle',ArticleDesc='$ArticleDesc'
+postTitle='$ArticleTitle',
+postDesc ='$ArticleDesc',
+postCategori='$CategoriId',
+postcatName ='$CategoriName',
+postAuthor='$AuthID',
+postauthName='$AuthName',
+postImage ='$postImagePath'
  where ArticleID=$ArticleID";
 
 $result = mysqli_query($con,$sql);

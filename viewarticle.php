@@ -13,11 +13,14 @@ $result = mysqli_query($con,"SELECT * from article");
 $outp = "";
 while($rs = mysqli_fetch_array($result)) {
     if ($outp != "") {$outp .= ",";}
-    $outp .= '{"Categori_Name":"'  . $rs["CategoriName"] . '",';
-    $outp .= '"Article_Title":"'   .$rs["ArticleTitle"] . '",';
-    $outp .= '"Article_Desc":"'   .$rs["ArticleDesc"] . '",';
-    $outp .= '"Article_ID":"'   .$rs["ArticleID"] . '",';
-    $outp .= '"ImgPath":"'   .$rs["ImgPath"] . '"}';
+    $outp .= '{"postCategori":"'  . $rs["postCategori"] . '",';
+    $outp .= '"postcatName":"'  . $rs["postcatName"] . '",';
+    $outp .= '"postTitle":"'   .$rs["postTitle"] . '",';
+    $outp .= '"postDesc":"'   .$rs["postDesc"] . '",';
+    $outp .= '"ArticleID":"'   .$rs["ArticleID"] . '",';
+    $outp .= '"postAuthor":"'   .$rs["postAuthor"] . '",';
+    $outp .= '"postauthName":"'   .$rs["postauthName"] . '",';
+    $outp .= '"postImage":"'   .$rs["postImage"] . '"}';
 }
 $outp ='{"records":['.$outp.']}';
 //$conn->close();
