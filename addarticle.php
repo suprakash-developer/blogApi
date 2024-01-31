@@ -39,40 +39,41 @@ if(isset($_POST["submit"])) {
 
     $uploadOk = 1;
   } else {
-    echo "File is not an image.";
+    $emessage= "File is not an image.";
     $uploadOk = 0;
   }
 }
 
 // Check if file already exists
 if (file_exists($target_file)) {
-  echo "Sorry, file already exists.";
+  $emessage= "Sorry, file already exists.";
   $uploadOk = 0;
 }
 
 // Check file size
 if ($_FILES["postImage"]["size"] > 500000) {
-  echo "Sorry, your file is too large.";
+  $emessage= "Sorry, your file is too large.";
   $uploadOk = 0;
 }
 
 // Allow certain file formats
 if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
 && $imageFileType != "gif" ) {
-  echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+  $emessage= "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
   $uploadOk = 0;
 }
 
 // Check if $uploadOk is set to 0 by an error
 if ($uploadOk == 0) {
-  echo "Sorry, your file was not uploaded.";
-  $response['data']=array(
-    'status'=>'invalid'
+  //echo "Sorry, your file was not uploaded.";
+  $response=array(
+    'status'=>'invalid',
+    'message'=>$emessage
  );
  echo json_encode($response);
 // if everything is ok, try to upload file
 } else {
-  $response['data']=array(
+  $response=array(
     'status'=>'valid'
  );
  echo json_encode($response);
