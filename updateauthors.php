@@ -10,26 +10,20 @@ include('db_connect.php');
 $data = json_decode(file_get_contents("php://input"));
 //print_r($data);
 //die();
-$ArticleID = $_POST['ArticleID'];
-$ArticleTitle = $_POST['postTitle'];
-$ArticleDesc = htmlentities($_POST['postDesc']);
-$CategoriName = $_POST['postcatName'];
-$CategoriId = $_POST['postCategori'];
-$AuthName = $_POST['postauthName'];
-$AuthID = $_POST['postAuthor'];
-
-
+$auth_name = $_POST['authName'];
+$auth_desc = $_POST['authDesc'];
+$authID = $_POST['authID'];
 
 if(!empty($_FILES)){
+$fileName = basename($_FILES["authImg"]["name"]);
 $target_dir = "images/";
-$fileName = basename($_FILES["postImage"]["name"]);
-$target_file = $target_dir . basename($_FILES["postImage"]["name"]);
-$postImagePath = "http://localhost/blog-react/" . $target_file;
+$target_file = $target_dir . basename($_FILES["authImg"]["name"]);
+$authImgPath = "http://localhost/blog-react/" . $target_file;
 $uploadOk = 1;
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 // Check if image file is a actual image or fake image
 if(isset($_POST["submit"])) {
-	$check = getimagesize($_FILES["postImage"]["tmp_name"]);
+	$check = getimagesize($_FILES["authImg"]["tmp_name"]);
 	if($check !== false) {
 	  //echo "File is an image - " . $check["mime"] . ".";
   
@@ -50,7 +44,7 @@ if(isset($_POST["submit"])) {
   }
   
   // Check file size
-  if ($_FILES["postImage"]["size"] > 500000) {
+  if ($_FILES["authImg"]["size"] > 500000) {
 	$emessage= "Sorry, your file is too large.";
 	$uploadOk = 0;
   }
@@ -76,46 +70,31 @@ if(isset($_POST["submit"])) {
 	  'status'=>'valid'
    );
    echo json_encode($response);
-
-
-if(move_uploaded_file($_FILES["postImage"]["tmp_name"], $target_file)){
-
-$sql = "update article set 
-postTitle='$ArticleTitle',
-postDesc ='$ArticleDesc',
-postCategori='$CategoriId',
-postcatName ='$CategoriName',
-postAuthor='$AuthID',
-postauthName='$AuthName',
-postImage ='$postImagePath'
- where ArticleID=$ArticleID";
+   if (move_uploaded_file($_FILES["authImg"]["tmp_name"], $target_file)) { 
+$sql = "update authors set 
+		authName='$auth_name',
+		authDesc='$auth_desc',
+		authImg='$authImgPath'
+		where authID=$authID";
 $result = mysqli_query($con,$sql);
-
-	$response=array(
-     'status'=>'valid'
-	);
-	echo json_encode($response);
-
-}
 } 
-} else {
-
-	$ImgPath = $_POST['postImage'];
-	$postImagePath=$ImgPath;
-	$sql = "update article set 
-postTitle='$ArticleTitle',
-postDesc ='$ArticleDesc',
-postCategori='$CategoriId',
-postcatName ='$CategoriName',
-postAuthor='$AuthID',
-postauthName='$AuthName',
-postImage ='$postImagePath'
- where ArticleID=$ArticleID";
-$result = mysqli_query($con,$sql);
-$response=array(
-	'status'=>'valid'
-  );
-  echo json_encode($response);
+	
 }
+  } else {
+	
+	$response=array(
+		'status'=>'valid'
+	 );
+	 echo json_encode($response);
+	 $authImg = $_POST['authImg'];
+	 
+	$authImgPath=$authImg;
+	$sql = "update authors set 
+		authName='$auth_name',
+		authDesc='$auth_desc',
+		authImg='$authImgPath'
+		where authID=$authID";
+	$result = mysqli_query($con,$sql);
 
+  }
 ?>

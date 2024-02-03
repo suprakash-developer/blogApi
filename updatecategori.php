@@ -13,24 +13,14 @@ $data = json_decode(file_get_contents("php://input"));
 $cat_name = $_POST['catName'];
 $cat_desc = $_POST['catDesc'];
 $catID = $_POST['catID'];
-//$catImg = $_POST['catImg'];
 
-include('db_connect.php');
-
-
-
-$target_dir = "images/";
+if(!empty($_FILES)){
 $fileName = basename($_FILES["catImg"]["name"]);
+$target_dir = "images/";
 $target_file = $target_dir . basename($_FILES["catImg"]["name"]);
-if($fileName!=null){
 $catImgPath = "http://localhost/blog-react/" . $target_file;
-} else {
-	$catImgPath=$catImg;
-}
-$cat_Img = basename($_FILES["catImg"]["name"]);
 $uploadOk = 1;
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-
 // Check if image file is a actual image or fake image
 if(isset($_POST["submit"])) {
 	$check = getimagesize($_FILES["catImg"]["tmp_name"]);
@@ -80,28 +70,31 @@ if(isset($_POST["submit"])) {
 	  'status'=>'valid'
    );
    echo json_encode($response);
-	if (move_uploaded_file($_FILES["catImg"]["tmp_name"], $target_file)) {
-		$sql = "update categories set 
-		catName='$cat_name',catDesc='$cat_desc',catImg='$catImgPath'
-		 where catID=$catID";
-		
-		$result = mysqli_query($con,$sql);
-		
-		if($result){
-		
-			$response=array(
-			 'status'=>'valid'
-			);
-			echo json_encode($response);
-		}
-		else{
-			 $response=array(
-			  'status'=>'invalid'
-			);
-			echo json_encode($response);
-		}
-	}
+   if (move_uploaded_file($_FILES["catImg"]["tmp_name"], $target_file)) { 
+$sql = "update categories set 
+		catName='$cat_name',
+		catDesc='$cat_desc',
+		catImg='$catImgPath'
+		where catID=$catID";
+$result = mysqli_query($con,$sql);
+} 
+	
 }
+  } else {
+	
+	$response=array(
+		'status'=>'valid'
+	 );
+	 echo json_encode($response);
+	 $catImg = $_POST['catImg'];
+	 
+	$catImgPath=$catImg;
+	$sql = "update categories set 
+		catName='$cat_name',
+		catDesc='$cat_desc',
+		catImg='$catImgPath'
+		where catID=$catID";
+	$result = mysqli_query($con,$sql);
 
-
+  }
 ?>
