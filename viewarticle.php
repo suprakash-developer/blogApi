@@ -12,11 +12,12 @@ $result = mysqli_query($con,"SELECT * from article");
  
 $outp = "";
 while($rs = mysqli_fetch_array($result)) {
+    
     if ($outp != "") {$outp .= ",";}
     $outp .= '{"postCategori":"'  . $rs["postCategori"] . '",';
     $outp .= '"postcatName":"'  . $rs["postcatName"] . '",';
     $outp .= '"postTitle":"'   .$rs["postTitle"] . '",';
-    $outp .= '"postDesc":"'   .$rs["postDesc"] . '",';
+    $outp .= '"postDesc":"'    .stripslashes($rs["postDesc"]) . '",';
     $outp .= '"ArticleID":"'   .$rs["ArticleID"] . '",';
     $outp .= '"postAuthor":"'   .$rs["postAuthor"] . '",';
     $outp .= '"postauthName":"'   .$rs["postauthName"] . '",';
@@ -24,6 +25,5 @@ while($rs = mysqli_fetch_array($result)) {
 }
 $outp ='{"records":['.$outp.']}';
 //$conn->close();
- 
-echo($outp);
+echo $outp;
 ?>

@@ -13,8 +13,8 @@ $data = json_decode(file_get_contents("php://input"));
 // $Article_Desc = $data->postDesc;
 // $AuthorName = $data->postAuthor;
 $Categori_ID = $_POST['postCategori'];
-$Categori_Name = $_POST['postcatName'];
-$Article_Desc = htmlentities($_POST['postDesc']);
+$Categori_Name = htmlentities($_POST['postcatName']);
+$Article_Desc = addslashes($_POST['postDesc']);
 $Article_Title = $_POST['postTitle'];
 $NameAuth = $_POST['postauthName'];
 $AuthorName = $_POST['postAuthor'];
@@ -95,7 +95,7 @@ values(
   '$Categori_ID',
 	'$Categori_Name',
 	'$Article_Title',
-	'$Article_Desc',
+	'".addslashes($Article_Desc)."',
 	'$AuthorName',
   '$NameAuth',
 	'$postImagePath'

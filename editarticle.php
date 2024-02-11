@@ -17,7 +17,7 @@ while($rs = mysqli_fetch_array($result)) {
     if ($outp != "") {$outp .= ",";}
         $outp .= '{"ArticleID":"'   .$rs["ArticleID"] . '",';
         $outp .= '"postTitle":"'   .$rs["postTitle"] . '",';
-        $outp .= '"postDesc":"'   .$rs["postDesc"] . '",';
+        $outp .= '"postDesc":"'   .stripslashes($rs["postDesc"]) . '",';
         $outp .='"postcatName":"'  . $rs["postcatName"] . '",';
         $outp .='"postCategori":"'  . $rs["postCategori"] . '",';
         $outp .='"postauthName":"'  . $rs["postauthName"] . '",';
